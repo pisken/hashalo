@@ -1,0 +1,48 @@
+SET(PROJECT_NAME "hashalo")
+PROJECT("${PROJECT_NAME}")
+CMAKE_MINIMUM_REQUIRED(VERSION 3.0)
+
+## build settings
+include(GNUInstallDirs)
+SET(CMAKE_CXX_STANDARD 11)
+
+if( OPENSSL_FOUND )
+    include_directories(${OPENSSL_INCLUDE_DIRS})
+    message(STATUS "Using OpenSSL ${OPENSSL_VERSION}")
+endif()
+
+# build options
+
+set(PROJECT_SOURCES
+    src/crc32.cpp
+    src/keccak.cpp
+    src/md5.cpp
+    src/sha1.cpp
+    src/sha3.cpp
+    src/sha256.cpp)
+    
+set(PROJECT_HEADERS
+    src/hash.h
+    src/hmac.h
+    src/crc32.h
+    src/keccak.h
+    src/md5.h
+    src/sha1.h
+    src/sha3.h
+    src/sha256.h)
+
+
+add_library("${PROJECT_NAME}" SHARED ${PROJECT_SOURCES})
+
+SET_TARGET_PROPERTIES("${PROJECT_NAME}"
+    PROPERTIES
+    PUBLIC_HEADER "${PROJECT_HEADERS}"
+    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+
+
+INSTALL(TARGETS "${PROJECT_NAME}"
+    RUNTIME DESTINATION bin
+    LIBRARY DESTINATION lib
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/hashalo)
