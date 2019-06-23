@@ -1,6 +1,6 @@
 # Portable C++ Hashing Library
 
-This is a library was clone from [https://github.com/stbrumme/hash-library]
+This is a library was clone from https://github.com/stbrumme/hash-library
 
 In a nutshell:
 
